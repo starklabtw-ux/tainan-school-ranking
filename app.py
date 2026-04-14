@@ -230,11 +230,10 @@ def render_academic_table(df: pd.DataFrame, table_id: str) -> str:
     return TABLE_STYLE.format() + html
 
 # Main content area
-@st.cache_data(ttl=300, show_spinner="正在載入學校資料...")
-def _load_data():
-    return data_manager.get_data()
-
-df = _load_data()
+if 'cached_df' not in st.session_state or st.session_state.cached_df is None:
+    with st.spinner("正在載入學校資料..."):
+        st.session_state.cached_df = data_manager.get_data()
+df = st.session_state.cached_df
 
 if df is not None and not df.empty:
     usage_info = """
