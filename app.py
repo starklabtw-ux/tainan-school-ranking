@@ -230,7 +230,11 @@ def render_academic_table(df: pd.DataFrame, table_id: str) -> str:
     return TABLE_STYLE.format() + html
 
 # Main content area
-df = data_manager.get_data()
+@st.cache_data(ttl=300, show_spinner="正在載入學校資料...")
+def _load_data():
+    return data_manager.get_data()
+
+df = _load_data()
 
 if df is not None and not df.empty:
     usage_info = """
