@@ -65,28 +65,31 @@ def _count_visit_local():
     except Exception:
         return 3932
 
-# Initialize session state
-if 'authenticated' not in st.session_state:
-    st.session_state.authenticated = False
-if 'data_manager' not in st.session_state:
-    st.session_state.data_manager = DataManager()
-if 'visitor_count' not in st.session_state:
-    try:
-        with open('data/visitor_count.txt', 'r') as f:
-            st.session_state.visitor_count = int(f.read().strip())
-    except:
-        st.session_state.visitor_count = 3932
-if 'page_view_counted' not in st.session_state:
-    st.session_state.page_view_counted = True
-    gas_url = _get_gas_url()
-    if gas_url:
-        new_count = _count_visit_via_gas(gas_url)
-        if new_count is not None:
-            st.session_state.visitor_count = new_count
-        else:
-            st.session_state.visitor_count = _count_visit_local()
-    else:
-        st.session_state.visitor_count = _count_visit_local()
+# Initialize session state with error handling
+try:
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+    if 'data_manager' not in st.session_state:
+        st.session_state.data_manager = DataManager()
+    if 'visitor_count' not in st.session_state:
+        try:
+            with open('data/visitor_count.txt', 'r') as f:
+                st.session_state.visitor_count = int(f.read().strip())
+        except:
+            st.session_state.visitor_count = 3932
+    if 'page_view_counted' not in st.session_state:
+        st.session_state.page_view_counted = True
+        try:
+            gas_url = _get_gas_url()
+            if gas_url:
+                new_count = _count_visit_via_gas(gas_url)
+                if new_count is not None:
+                    st.session_state.visitor_count = new_count
+        except Exception as e:
+            print(f"Visit count error (non-fatal): {e}")
+except Exception as e:
+    st.error(f"初始化錯誤：{e}")
+    st.stop()
 
 # Load initial data
 data_manager = st.session_state.data_manager
