@@ -229,8 +229,10 @@ def render_academic_table(df: pd.DataFrame, table_id: str) -> str:
     html = df.to_html(index=False, escape=False, table_id=table_id, classes="academic-table")
     return TABLE_STYLE.format() + html
 
-# Main content area
-df = data_manager.get_data()
+# Main content area - cache data in session_state to avoid re-fetching GAS on every rerun
+if 'df_cache' not in st.session_state:
+    st.session_state.df_cache = data_manager.get_data()
+df = st.session_state.df_cache
 
 if df is not None and not df.empty:
     usage_info = """
