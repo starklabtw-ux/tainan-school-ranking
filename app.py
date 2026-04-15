@@ -14,12 +14,6 @@ from data_manager import DataManager
 from chart_generator import ChartGenerator
 import base64
 
-st.set_page_config(
-    page_title="台南市公私立國中第一志願錄取數據查詢系統",
-    page_icon="📊",
-    initial_sidebar_state="collapsed"
-)
-
 def _get_base64_image(image_path):
     """Convert image to base64 string"""
     try:
@@ -43,7 +37,7 @@ def _count_visit_via_gas(gas_url: str):
     try:
         api_url = gas_url + "?action=countVisit"
         req = urllib.request.Request(api_url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=3) as response:
+        with urllib.request.urlopen(req, timeout=8) as response:
             result = json.loads(response.read().decode("utf-8"))
         return result.get("count", None)
     except Exception as e:
@@ -65,35 +59,38 @@ def _count_visit_local():
     except Exception:
         return 3932
 
-# Initialize session state with error handling
-try:
-    if 'authenticated' not in st.session_state:
-        st.session_state.authenticated = False
-    if 'data_manager' not in st.session_state:
-        st.session_state.data_manager = DataManager()
-    if 'visitor_count' not in st.session_state:
-        try:
-            with open('data/visitor_count.txt', 'r') as f:
-                st.session_state.visitor_count = int(f.read().strip())
-        except:
-            st.session_state.visitor_count = 3932
-    if 'page_view_counted' not in st.session_state:
-        st.session_state.page_view_counted = True
-        try:
-            gas_url = _get_gas_url()
-            if gas_url:
-                new_count = _count_visit_via_gas(gas_url)
-                if new_count is not None:
-                    st.session_state.visitor_count = new_count
-        except Exception as e:
-            print(f"Visit count error (non-fatal): {e}")
-except Exception as e:
-    st.error(f"初始化錯誤：{e}")
-    st.stop()
+# Initialize session state
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+if 'data_manager' not in st.session_state:
+    st.session_state.data_manager = DataManager()
+if 'visitor_count' not in st.session_state:
+    try:
+        with open('data/visitor_count.txt', 'r') as f:
+            st.session_state.visitor_count = int(f.read().strip())
+    except:
+        st.session_state.visitor_count = 3932
+if 'page_view_counted' not in st.session_state:
+    st.session_state.page_view_counted = True
+    gas_url = _get_gas_url()
+    if gas_url:
+        new_count = _count_visit_via_gas(gas_url)
+        if new_count is not None:
+            st.session_state.visitor_count = new_count
+        else:
+            st.session_state.visitor_count = _count_visit_local()
+    else:
+        st.session_state.visitor_count = _count_visit_local()
 
 # Load initial data
 data_manager = st.session_state.data_manager
 chart_generator = ChartGenerator()
+
+st.set_page_config(
+    page_title="台南市公私立國中第一志願錄取數據查詢系統",
+    page_icon="📊",
+    initial_sidebar_state="collapsed"
+)
 
 st.markdown("""
 <meta name="description" content="台南市公私立國中第一志願錄取數據查詢系統 - 提供2020-2025學年度台南一中、台南女中錄取率統計，支援學校搜尋、多校比較功能，協助家長選校參考">
@@ -233,10 +230,7 @@ def render_academic_table(df: pd.DataFrame, table_id: str) -> str:
     return TABLE_STYLE.format() + html
 
 # Main content area
-if 'cached_df' not in st.session_state or st.session_state.cached_df is None:
-    with st.spinner("正在載入學校資料..."):
-        st.session_state.cached_df = data_manager.get_data()
-df = st.session_state.cached_df
+df = data_manager.get_data()
 
 if df is not None and not df.empty:
     usage_info = """

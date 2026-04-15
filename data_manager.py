@@ -34,7 +34,7 @@ class DataManager:
         try:
             api_url = gas_url + "?action=getData"
             req = urllib.request.Request(api_url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, timeout=10) as response:
                 raw = response.read().decode("utf-8")
             
             result = json.loads(raw)
