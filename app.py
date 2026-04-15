@@ -14,6 +14,12 @@ from data_manager import DataManager
 from chart_generator import ChartGenerator
 import base64
 
+st.set_page_config(
+    page_title="台南市公私立國中第一志願錄取數據查詢系統",
+    page_icon="📊",
+    initial_sidebar_state="collapsed"
+)
+
 def _get_base64_image(image_path):
     """Convert image to base64 string"""
     try:
@@ -85,12 +91,6 @@ if 'page_view_counted' not in st.session_state:
 # Load initial data
 data_manager = st.session_state.data_manager
 chart_generator = ChartGenerator()
-
-st.set_page_config(
-    page_title="台南市公私立國中第一志願錄取數據查詢系統",
-    page_icon="📊",
-    initial_sidebar_state="collapsed"
-)
 
 st.markdown("""
 <meta name="description" content="台南市公私立國中第一志願錄取數據查詢系統 - 提供2020-2025學年度台南一中、台南女中錄取率統計，支援學校搜尋、多校比較功能，協助家長選校參考">
