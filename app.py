@@ -524,7 +524,7 @@ if df is not None and not df.empty:
         st.markdown('<div class="subsection-header">五校<span style="background:linear-gradient(135deg,#1B3A5C,#1ABC9C);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.85em;">錄取率</span>歷年變化（含科學班）</div>', unsafe_allow_html=True)
         admission_rate_chart = chart_generator.create_admission_rate_comparison(key_schools_data)
         if admission_rate_chart:
-            st.plotly_chart(admission_rate_chart, use_container_width=True)
+            st.plotly_chart(admission_rate_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
         
         admission_rate_table_data = []
         for _, school_row in key_schools_data.iterrows():
@@ -548,7 +548,7 @@ if df is not None and not df.empty:
         st.markdown('<div class="subsection-header">五校<span style="background:linear-gradient(135deg,#E74C3C,#F39C12);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.85em;">錄取人數</span>歷年變化（含科學班）</div>', unsafe_allow_html=True)
         student_count_chart = chart_generator.create_student_count_comparison(key_schools_data)
         if student_count_chart:
-            st.plotly_chart(student_count_chart, use_container_width=True)
+            st.plotly_chart(student_count_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
         
         admission_count_table_data = []
         for _, school_row in key_schools_data.iterrows():
@@ -660,13 +660,13 @@ if df is not None and not df.empty:
                         st.markdown(f'<div class="subsection-header">{school_name} 歷年錄取率</div>', unsafe_allow_html=True)
                         single_school_rate_chart = chart_generator.create_single_school_admission_rate(school_data)
                         if single_school_rate_chart:
-                            st.plotly_chart(single_school_rate_chart, use_container_width=True)
+                            st.plotly_chart(single_school_rate_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
                     
                     with col2:
                         st.markdown(f'<div class="subsection-header">{school_name} 歷年第一志願錄取人數</div>', unsafe_allow_html=True)
                         single_school_count_chart = chart_generator.create_single_school_student_count(school_data)
                         if single_school_count_chart:
-                            st.plotly_chart(single_school_count_chart, use_container_width=True)
+                            st.plotly_chart(single_school_count_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
                     
                     st.markdown(f'<div class="subsection-header">{school_name} 詳細資料</div>', unsafe_allow_html=True)
                     
@@ -899,13 +899,13 @@ if df is not None and not df.empty:
                 st.markdown(f'<div class="subsection-header">{selected_school} 歷年錄取率</div>', unsafe_allow_html=True)
                 single_school_rate_chart = chart_generator.create_single_school_admission_rate(school_data)
                 if single_school_rate_chart:
-                    st.plotly_chart(single_school_rate_chart, use_container_width=True)
+                    st.plotly_chart(single_school_rate_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
             
             with col2:
                 st.markdown(f'<div class="subsection-header">{selected_school} 歷年第一志願錄取人數</div>', unsafe_allow_html=True)
                 single_school_count_chart = chart_generator.create_single_school_student_count(school_data)
                 if single_school_count_chart:
-                    st.plotly_chart(single_school_count_chart, use_container_width=True)
+                    st.plotly_chart(single_school_count_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
     
     elif query_mode == "多校查詢比較" and st.session_state.comparison_schools and not filtered_df.empty:
         st.markdown('<div class="subsection-header">多校查詢比較結果</div>', unsafe_allow_html=True)
@@ -916,13 +916,13 @@ if df is not None and not df.empty:
             st.markdown('<div class="subsection-header">錄取率比較</div>', unsafe_allow_html=True)
             comparison_rate_chart = chart_generator.create_admission_rate_comparison(filtered_df)
             if comparison_rate_chart:
-                st.plotly_chart(comparison_rate_chart, use_container_width=True)
+                st.plotly_chart(comparison_rate_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
         
         with col2:
             st.markdown('<div class="subsection-header">錄取人數比較</div>', unsafe_allow_html=True)
             comparison_count_chart = chart_generator.create_student_count_comparison(filtered_df)
             if comparison_count_chart:
-                st.plotly_chart(comparison_count_chart, use_container_width=True)
+                st.plotly_chart(comparison_count_chart, use_container_width=True, config={'scrollZoom': False, 'displayModeBar': False, 'staticPlot': True})
         
         st.markdown('<div class="subsection-header">詳細比較數據</div>', unsafe_allow_html=True)
         
