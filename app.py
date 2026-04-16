@@ -104,85 +104,280 @@ st.markdown("""
 st.markdown("""
 <style>
     .main .block-container {
-        max-width: 800px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 1rem;
+        padding: 1.2rem 2rem;
     }
 
-    .main-title {
+    /* ── Hero Banner ── */
+    .hero-banner {
+        background: linear-gradient(135deg, #1B3A5C 0%, #2E6B8A 50%, #1ABC9C 100%);
+        border-radius: 12px;
+        padding: 2.2rem 1.5rem 1.6rem;
+        margin-bottom: 1.8rem;
         text-align: center;
-        font-size: 2rem;
-        font-weight: bold;
-        color: #1B3A5C;
-        margin-bottom: 0.4rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 2px solid #1B3A5C;
-        letter-spacing: 0.02em;
+        box-shadow: 0 4px 20px rgba(27, 58, 92, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-banner::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .hero-banner h1 {
+        color: #ffffff;
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin: 0 0 0.6rem 0;
+        letter-spacing: 0.04em;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: relative;
+    }
+    .hero-meta {
+        color: rgba(255,255,255,0.85);
+        font-size: 1.05rem;
+        position: relative;
+    }
+    .hero-meta a {
+        color: #A8EDEA;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .hero-meta a:hover { text-decoration: underline; }
+    .hero-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.18);
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        margin-right: 12px;
+        backdrop-filter: blur(4px);
     }
 
+    /* ── Section Headers ── */
     .section-header {
-        font-size: 1.35rem;
+        font-size: 1.7rem;
         font-weight: 700;
         color: #1B3A5C;
         margin-top: 2rem;
         margin-bottom: 1rem;
-        padding: 0.4rem 0 0.4rem 0.75rem;
-        border-left: 4px solid #1B3A5C;
-        background-color: transparent;
-        border-radius: 0;
-        text-align: left;
+        padding: 0.6rem 1rem;
+        border-left: 4px solid transparent;
+        border-image: linear-gradient(180deg, #1B3A5C, #1ABC9C) 1;
+        background: linear-gradient(90deg, rgba(26,188,156,0.06), transparent);
+        border-radius: 0 6px 6px 0;
     }
 
     .subsection-header {
-        font-size: 1.1rem;
+        font-size: 1.35rem;
         font-weight: 600;
-        color: #1B3A5C;
+        color: #2C3E50;
         margin-top: 1.2rem;
         margin-bottom: 0.6rem;
-        padding-left: 0.5rem;
-        border-left: 3px solid #8B9DB0;
+        padding: 0.3rem 0 0.3rem 0.6rem;
+        border-left: 3px solid #1ABC9C;
     }
 
+    /* ── Card Wrapper ── */
+    .ui-card {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 1.2rem 1.4rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 8px rgba(27, 58, 92, 0.08);
+        border: 1px solid rgba(27, 58, 92, 0.06);
+        transition: box-shadow 0.2s ease;
+    }
+    .ui-card:hover {
+        box-shadow: 0 3px 16px rgba(27, 58, 92, 0.13);
+    }
+
+    /* ── Metric Cards ── */
+    .metrics-row {
+        display: flex;
+        gap: 10px;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+    }
+    .metric-card {
+        flex: 1;
+        min-width: 120px;
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 0.9rem 0.7rem;
+        text-align: center;
+        box-shadow: 0 1px 6px rgba(27, 58, 92, 0.08);
+        border: 1px solid rgba(27, 58, 92, 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px rgba(27, 58, 92, 0.14);
+    }
+    .metric-card .school-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1B3A5C;
+        margin-bottom: 4px;
+    }
+    .metric-card .metric-value {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1B3A5C, #1ABC9C);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .metric-card .metric-trend {
+        font-size: 0.9rem;
+        margin-top: 2px;
+    }
+    .trend-up { color: #27AE60; }
+    .trend-down { color: #E74C3C; }
+    .trend-flat { color: #95A5A6; }
+
+    /* ── Info Box ── */
+    .info-box {
+        background: linear-gradient(135deg, #F8FFFE, #F0F7FF);
+        border-radius: 10px;
+        padding: 1.2rem 1.4rem;
+        margin: 1.2rem 0;
+        border-left: 4px solid;
+        border-image: linear-gradient(180deg, #1B3A5C, #1ABC9C) 1;
+        box-shadow: 0 1px 6px rgba(27, 58, 92, 0.06);
+    }
+    .info-box h3 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: #1B3A5C;
+        font-size: 1.35rem;
+        font-weight: 700;
+    }
+    .info-box ol {
+        margin: 0;
+        padding-left: 20px;
+        color: #374151;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    .info-box li { margin-bottom: 6px; }
+
+    /* ── Tables ── */
     .stDataFrame {
-        border: 1px solid #D5DCE5;
-        border-radius: 3px;
+        border: 1px solid rgba(27, 58, 92, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
     }
-
-    .stDataFrame table {
-        text-align: center !important;
-    }
-
+    .stDataFrame table { text-align: center !important; }
     .stDataFrame th, .stDataFrame td {
         text-align: center !important;
         vertical-align: middle !important;
     }
-
-    .stDataFrame div[data-testid="column"] {
-        text-align: center !important;
-    }
-
     div[data-testid="stDataFrame"] table th,
     div[data-testid="stDataFrame"] table td {
         text-align: center !important;
     }
 
-    .stDataFrame .data {
-        text-align: center !important;
+    /* ── Footer ── */
+    .site-footer {
+        background: linear-gradient(135deg, #F8FFFE, #F0F4F8);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        text-align: center;
+        border-top: 3px solid;
+        border-image: linear-gradient(90deg, #1B3A5C, #1ABC9C) 1;
+    }
+    .site-footer p {
+        margin: 8px 0;
+        font-size: 1.0rem;
+        color: #6B7280;
+    }
+    .site-footer a {
+        color: #1B3A5C;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .site-footer a:hover { color: #1ABC9C; }
+
+    /* ── Divider ── */
+    .gradient-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #1ABC9C, #1B3A5C, #1ABC9C, transparent);
+        margin: 2rem 0;
+        border: none;
+        border-radius: 1px;
     }
 
-    .footer-text {
-        text-align: center;
-        font-style: italic;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #D5DCE5;
-        color: #6B7280;
+    /* ── Streamlit overrides ── */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #1B3A5C, #1ABC9C);
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+    .stButton > button[kind="primary"]:hover {
+        background: linear-gradient(135deg, #15304D, #17A68A);
+    }
+    hr { display: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+        .main .block-container {
+            max-width: 100%;
+            padding: 0.8rem 1rem;
+        }
+        .hero-banner { padding: 1.6rem 1rem 1.2rem; }
+        .hero-banner h1 { font-size: 1.6rem; }
+        .hero-meta { font-size: 0.9rem; }
+        .hero-badge { font-size: 0.82rem; }
+        .section-header { font-size: 1.3rem; }
+        .subsection-header { font-size: 1.1rem; }
+        .info-box h3 { font-size: 1.15rem; }
+        .info-box ol { font-size: 0.95rem; }
+        .metrics-row { gap: 6px; }
+        .metric-card {
+            min-width: 90px;
+            padding: 0.7rem 0.4rem;
+        }
+        .metric-card .school-name { font-size: 0.85rem; }
+        .metric-card .metric-value { font-size: 1.3rem; }
+        .metric-card .metric-trend { font-size: 0.75rem; }
+        .academic-table {{ font-size: 0.9rem; }}
+        .academic-table th {{ font-size: 0.85rem; padding: 8px 6px; }}
+        .academic-table td {{ font-size: 0.88rem; padding: 7px 6px; }}
+        .site-footer p { font-size: 0.88rem; }
+    }
+
+    @media (max-width: 480px) {
+        .hero-banner h1 { font-size: 1.3rem; }
+        .metrics-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .metric-card { min-width: unset; }
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-title">台南市公私立國中第一志願錄取數據查詢系統</div>', unsafe_allow_html=True)
-st.markdown(f'<div style="text-align: center; font-size: 10pt; margin-bottom: 2rem; color: #6B7280;">瀏覽人次：{st.session_state.visitor_count:,} &nbsp;&nbsp;&nbsp; 系統製作：<a href="https://www.facebook.com/starklabtw" target="_blank" style="color: #1B3A5C; text-decoration: none;">小史塔克實驗室</a></div>', unsafe_allow_html=True)
+st.markdown(f'''
+<div class="hero-banner">
+    <h1>台南市公私立國中<br>第一志願錄取數據查詢系統</h1>
+    <div class="hero-meta">
+        <span class="hero-badge">瀏覽人次 {st.session_state.visitor_count:,}</span>
+        系統製作：<a href="https://www.facebook.com/starklabtw" target="_blank">小史塔克實驗室</a>
+    </div>
+</div>
+''', unsafe_allow_html=True)
 
 TABLE_STYLE = """
 <style>
@@ -190,36 +385,49 @@ TABLE_STYLE = """
     margin: 0 auto;
     border-collapse: collapse;
     width: 100%;
-    border-top: 3px double #1B3A5C;
-    border-bottom: 3px double #1B3A5C;
-    font-size: 10pt;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 6px rgba(27, 58, 92, 0.08);
 }}
 .academic-table th {{
-    background-color: #1B3A5C;
+    background: linear-gradient(135deg, #1B3A5C 0%, #2E6B8A 100%);
     color: #ffffff;
-    font-weight: 700;
+    font-weight: 600;
     text-align: center !important;
-    padding: 8px 10px;
+    padding: 12px 12px;
     border: none;
-    border-right: 1px solid #2E5A8C;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
 }}
 .academic-table th:last-child {{
     border-right: none;
 }}
 .academic-table td {{
     text-align: center !important;
-    padding: 7px 10px;
+    padding: 11px 12px;
     border: none;
-    border-right: 1px solid #E8ECF0;
+    border-right: 1px solid #EEF2F7;
+    color: #374151;
+    font-size: 1.05rem;
 }}
 .academic-table td:last-child {{
     border-right: none;
 }}
 .academic-table tr:nth-child(even) td {{
-    background-color: #F7F9FC;
+    background-color: #F8FFFE;
 }}
 .academic-table tr:nth-child(odd) td {{
     background-color: #ffffff;
+}}
+.academic-table tr:hover td {{
+    background-color: rgba(26, 188, 156, 0.08);
+    transition: background-color 0.15s ease;
+}}
+.academic-table td:first-child {{
+    font-weight: 600;
+    color: #1B3A5C;
 }}
 </style>
 """
@@ -236,21 +444,13 @@ df = st.session_state.df_cache
 
 if df is not None and not df.empty:
     usage_info = """
-    <div style="
-        background-color: #F7F9FC;
-        border: 1px solid #1B3A5C;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 2px;
-        font-size: 12pt;
-        line-height: 1.6;
-    ">
-        <h3 style="text-align: center; margin-top: 0; margin-bottom: 16px; color: #1B3A5C; font-size: 14pt; font-weight: 700;">系統使用說明</h3>
-        <ol style="margin: 0; padding-left: 20px; color: #2C3E50;">
-            <li style="margin-bottom: 10px;">本系統為免費查詢，所有數據僅提供家長作為挑選學校的參考資料，相關結論請使用者自行判斷</li>
-            <li style="margin-bottom: 10px;">本頁數據僅採計免試錄取人數、南一中科學班錄取人數，錄取率的計算方式為 ( 該年免試錄取人數 + 南一中科學班錄取人數 ) / 該校當年三年級學生人數</li>
-            <li style="margin-bottom: 10px;">若該生為達到第一志願分數卻沒有去南一中、南女，或者是錄取外縣市科學班皆不會採計進資料</li>
-            <li style="margin-bottom: 0;">私校的相關數據需要考慮直升人數，並且有些並沒有向台南市學籍系統回報學生人數，本系統即無法呈現資料</li>
+    <div class="info-box">
+        <h3>系統使用說明</h3>
+        <ol>
+            <li>本系統為免費查詢，所有數據僅提供家長作為挑選學校的參考資料，相關結論請使用者自行判斷</li>
+            <li>本頁數據僅採計免試錄取人數、南一中科學班錄取人數，錄取率的計算方式為 ( 該年免試錄取人數 + 南一中科學班錄取人數 ) / 該校當年三年級學生人數</li>
+            <li>若該生為達到第一志願分數卻沒有去南一中、南女，或者是錄取外縣市科學班皆不會採計進資料</li>
+            <li>私校的相關數據需要考慮直升人數，並且有些並沒有向台南市學籍系統回報學生人數，本系統即無法呈現資料</li>
         </ol>
     </div>
     """
@@ -266,7 +466,62 @@ if df is not None and not df.empty:
     if not key_schools_data.empty:
         year_columns = data_manager.get_year_columns(df)
 
-        st.markdown('<div class="subsection-header">五校錄取率歷年變化</div>', unsafe_allow_html=True)
+        # Metric cards for latest year — find the latest year with data
+        display_year = None
+        prev_year_label = None
+        for check_year in ['114', '113', '112', '111', '110', '109']:
+            col_name = f"{check_year}學年第一志願錄取率"
+            if col_name in key_schools_data.columns:
+                valid = key_schools_data[col_name].apply(
+                    lambda v: pd.notna(v) and str(v) not in ['-', '#VALUE!']
+                )
+                if valid.any():
+                    if display_year is None:
+                        display_year = check_year
+                    elif prev_year_label is None:
+                        prev_year_label = check_year
+                        break
+
+        metric_cards_html = f'<div style="text-align:center; color:#6B7280; font-size:1.0rem; margin-bottom:4px;">{display_year} 學年度第一志願錄取率（較 {prev_year_label} 學年度）</div>'
+        metric_cards_html += '<div class="metrics-row">'
+        for _, school_row in key_schools_data.iterrows():
+            school_name = school_row['學校']
+            latest_rate = None
+            prev_rate = None
+            col_latest = f"{display_year}學年第一志願錄取率"
+            col_prev = f"{prev_year_label}學年第一志願錄取率" if prev_year_label else None
+            if col_latest in school_row and pd.notna(school_row[col_latest]) and str(school_row[col_latest]) not in ['-', '#VALUE!']:
+                try:
+                    latest_rate = float(school_row[col_latest]) * 100
+                except:
+                    pass
+            if col_prev and col_prev in school_row and pd.notna(school_row[col_prev]) and str(school_row[col_prev]) not in ['-', '#VALUE!']:
+                try:
+                    prev_rate = float(school_row[col_prev]) * 100
+                except:
+                    pass
+            if latest_rate is not None:
+                rate_str = f"{latest_rate:.1f}%"
+                if prev_rate is not None:
+                    diff = latest_rate - prev_rate
+                    if diff > 0.5:
+                        trend_html = f'<div class="metric-trend trend-up">&#9650; +{diff:.1f}%</div>'
+                    elif diff < -0.5:
+                        trend_html = f'<div class="metric-trend trend-down">&#9660; {diff:.1f}%</div>'
+                    else:
+                        trend_html = '<div class="metric-trend trend-flat">&#9644; 持平</div>'
+                else:
+                    trend_html = '<div class="metric-trend trend-flat">—</div>'
+                metric_cards_html += f'''
+                <div class="metric-card">
+                    <div class="school-name">{school_name}</div>
+                    <div class="metric-value">{rate_str}</div>
+                    {trend_html}
+                </div>'''
+        metric_cards_html += '</div>'
+        st.markdown(metric_cards_html, unsafe_allow_html=True)
+
+        st.markdown('<div class="subsection-header">五校<span style="background:linear-gradient(135deg,#1B3A5C,#1ABC9C);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.85em;">錄取率</span>歷年變化（含科學班）</div>', unsafe_allow_html=True)
         admission_rate_chart = chart_generator.create_admission_rate_comparison(key_schools_data)
         if admission_rate_chart:
             st.plotly_chart(admission_rate_chart, use_container_width=True)
@@ -290,7 +545,7 @@ if df is not None and not df.empty:
             admission_rate_df = pd.DataFrame(admission_rate_table_data)
             st.html(render_academic_table(admission_rate_df, "rate-table"))
         
-        st.markdown('<div class="subsection-header">五校免試人數+科學班人數歷年變化</div>', unsafe_allow_html=True)
+        st.markdown('<div class="subsection-header">五校<span style="background:linear-gradient(135deg,#E74C3C,#F39C12);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.85em;">錄取人數</span>歷年變化（含科學班）</div>', unsafe_allow_html=True)
         student_count_chart = chart_generator.create_student_count_comparison(key_schools_data)
         if student_count_chart:
             st.plotly_chart(student_count_chart, use_container_width=True)
@@ -327,8 +582,8 @@ if df is not None and not df.empty:
             science_class_df = pd.DataFrame(science_class_table_data)
             st.html(render_academic_table(science_class_df, "science-table"))
     
-    st.markdown("---")
-    
+    st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
+
     st.markdown('<div class="section-header">您想查詢哪一所學校的資料呢？</div>', unsafe_allow_html=True)
     
     if 'comparison_schools' not in st.session_state:
@@ -717,7 +972,7 @@ else:
     st.error("無法載入學校資料，請檢查資料檔案是否存在")
 
 # Footer
-st.markdown("---")
+st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
 with st.expander("管理者專區"):
     if not st.session_state.authenticated:
@@ -772,17 +1027,12 @@ with st.expander("管理者專區"):
             st.session_state.authenticated = False
             st.rerun()
 
-st.markdown("---")
-
+last_update = data_manager.get_last_update_time()
 st.markdown(f'''
-<div style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
-    <img src="data:image/png;base64,{_get_base64_image('attached_assets/Logo_1752303088536.png')}" style="width: 100px;" />
+<div class="site-footer">
+    <img src="data:image/png;base64,{_get_base64_image('attached_assets/Logo_1752303088536.png')}" style="width: 80px; margin-bottom: 8px;" />
+    <p>資料來源：台南一中、台南女中、雪莉的數位生活、台南市國中學籍系統</p>
+    <p>意見與勘誤回報：<a href="https://line.me/R/ti/p/%40starklab" target="_blank">小史塔克實驗室</a></p>
+    <p style="font-size: 0.88rem; color: #9CA3AF;">最近系統資料更新時間：{last_update}</p>
 </div>
 ''', unsafe_allow_html=True)
-
-st.markdown('<div style="text-align: center; margin-top: 10px; font-size: 11pt; color: #6B7280;">資料來源：台南一中、台南女中、雪莉的數位生活、台南市國中學籍系統</div>', unsafe_allow_html=True)
-
-st.markdown('<div style="text-align: center; margin-top: 10px; font-size: 11pt; color: #6B7280;">意見與勘誤回報：<a href="https://line.me/R/ti/p/%40starklab" target="_blank" style="color: #1B3A5C; text-decoration: none;">小史塔克實驗室</a></div>', unsafe_allow_html=True)
-
-last_update = data_manager.get_last_update_time()
-st.markdown(f'<div style="text-align: center; margin-top: 10px; font-size: 10pt; color: #6B7280;">最近系統資料更新時間：{last_update}</div>', unsafe_allow_html=True)

@@ -5,11 +5,11 @@ import pandas as pd
 import re
 from typing import Optional, List, Dict, Any
 
-ACADEMIC_COLORS = ['#1B3A5C', '#1E6B4A', '#8B1A2D', '#B05A00', '#4A2070']
-GRID_COLOR = '#E8ECF0'
-AXIS_COLOR = '#6B7280'
-BG_COLOR = 'white'
-TEXT_COLOR = '#2C3E50'
+ACADEMIC_COLORS = ['#2E86C1', '#1ABC9C', '#E74C3C', '#F39C12', '#9B59B6']
+GRID_COLOR = '#EEF2F7'
+AXIS_COLOR = '#8899A6'
+BG_COLOR = 'rgba(0,0,0,0)'
+TEXT_COLOR = '#374151'
 
 class ChartGenerator:
     def __init__(self):
@@ -22,14 +22,14 @@ class ChartGenerator:
         base = dict(
             plot_bgcolor=BG_COLOR,
             paper_bgcolor=BG_COLOR,
-            font=dict(color=TEXT_COLOR, size=11),
+            font=dict(color=TEXT_COLOR, size=14, family="system-ui, -apple-system, sans-serif"),
             legend=dict(
                 orientation="h",
                 yanchor="top",
                 y=-0.18,
                 xanchor="center",
                 x=0.5,
-                font=dict(size=10, color=TEXT_COLOR),
+                font=dict(size=13, color=TEXT_COLOR),
                 bgcolor="rgba(0,0,0,0)",
                 borderwidth=0
             ),
@@ -37,20 +37,26 @@ class ChartGenerator:
                 showgrid=False,
                 zeroline=False,
                 linecolor=GRID_COLOR,
-                tickfont=dict(color=AXIS_COLOR, size=10),
-                title_font=dict(color=TEXT_COLOR, size=11)
+                tickfont=dict(color=AXIS_COLOR, size=13),
+                title_font=dict(color=TEXT_COLOR, size=14)
             ),
             yaxis=dict(
                 showgrid=True,
                 gridcolor=GRID_COLOR,
                 gridwidth=0.5,
+                griddash='dot',
                 zeroline=False,
                 linecolor=GRID_COLOR,
-                tickfont=dict(color=AXIS_COLOR, size=10),
-                title_font=dict(color=TEXT_COLOR, size=11)
+                tickfont=dict(color=AXIS_COLOR, size=13),
+                title_font=dict(color=TEXT_COLOR, size=14)
             ),
             margin=dict(l=50, r=20, t=20, b=80),
-            hovermode='x unified'
+            hovermode='x unified',
+            hoverlabel=dict(
+                bgcolor="white",
+                font_size=14,
+                bordercolor="#1ABC9C"
+            )
         )
         base.update(extra_kwargs)
         fig.update_layout(**base)
@@ -106,8 +112,8 @@ class ChartGenerator:
                         y=rates,
                         mode='lines+markers',
                         name=school,
-                        line=dict(color=self.colors[i % len(self.colors)], width=1.5),
-                        marker=dict(size=5, symbol='circle')
+                        line=dict(color=self.colors[i % len(self.colors)], width=2.5),
+                        marker=dict(size=7, symbol='circle')
                     ))
             
             fig = self._academic_layout(fig, yaxis_title="錄取率（％）", xaxis_title="學年度")
@@ -150,8 +156,8 @@ class ChartGenerator:
                         y=total_counts,
                         mode='lines+markers',
                         name=school,
-                        line=dict(color=self.colors[i % len(self.colors)], width=1.5),
-                        marker=dict(size=5, symbol='circle')
+                        line=dict(color=self.colors[i % len(self.colors)], width=2.5),
+                        marker=dict(size=7, symbol='circle')
                     ))
             
             fig = self._academic_layout(fig, yaxis_title="學生人數（人）", xaxis_title="學年度")
@@ -191,11 +197,11 @@ class ChartGenerator:
                 y=rates,
                 mode='lines+markers+text',
                 name='錄取率',
-                line=dict(color=self.colors[0], width=1.5),
-                marker=dict(size=7, symbol='circle'),
+                line=dict(color=self.colors[0], width=2.5),
+                marker=dict(size=8, symbol='circle'),
                 text=[f"{rate:.2f}%" for rate in rates],
                 textposition="top center",
-                textfont=dict(size=10, color=TEXT_COLOR)
+                textfont=dict(size=13, color=TEXT_COLOR)
             ))
             
             fig = self._academic_layout(fig, showlegend=False, yaxis_title="錄取率（％）", xaxis_title="學年度")
@@ -266,7 +272,7 @@ class ChartGenerator:
                 marker_color=self.colors[0],
                 text=[str(int(count)) if count > 0 else '' for count in admission_counts],
                 textposition='inside',
-                textfont=dict(size=10, color='white')
+                textfont=dict(size=13, color='white')
             ))
             
             fig.add_trace(go.Bar(
@@ -276,7 +282,7 @@ class ChartGenerator:
                 marker_color=self.colors[1],
                 text=[str(int(count)) if count > 0 else '' for count in science_counts],
                 textposition='inside',
-                textfont=dict(size=10, color='white')
+                textfont=dict(size=13, color='white')
             ))
             
             fig = self._academic_layout(fig, barmode='stack', yaxis_title="學生人數（人）", xaxis_title="學年度")
